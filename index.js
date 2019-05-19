@@ -7,17 +7,18 @@ try {
 
   bot
     .launch()
-    .then(res => {
+    .then(() => {
       debug('launched');
-      debug(res);
     })
     .catch(err => {
       logger.error({ error: err });
       debug('Error: %O', err);
+      debug('Exiting process with code 1');
       process.exit(1);
     });
 } catch (err) {
   logger.error({ error: err });
   debug('Error: %O', err);
+  debug('Exiting process with code 1');
   process.exit(1);
 }

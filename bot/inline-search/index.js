@@ -21,7 +21,7 @@ module.exports = async ctx => {
 
     debug('Searching for: %s', query);
     const results = await googleSearch(query, offset);
-    debug('Done searching for: %s %O', query, results);
+    debug('Done searching for: %s', query);
 
     if (offset === 0 && results.length === 0) {
       debug('Nothing was found for: %s', query);
@@ -58,7 +58,7 @@ module.exports = async ctx => {
       };
     });
 
-    debug('Answering to inline query "%s" with %O', query, inlineResults);
+    debug('Answering to inline query "%s"', query);
 
     return ctx.answerInlineQuery(inlineResults, {
       // if search didn't give a result, then there is no more results
