@@ -12,7 +12,7 @@ module.exports = async ctx => {
   try {
     debug(
       'Inline query user: %s, query: %O',
-      ctx.message.from.username,
+      ctx.from.username,
       ctx.inlineQuery,
     );
 
