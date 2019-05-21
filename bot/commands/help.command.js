@@ -1,8 +1,10 @@
 const Extra = require('telegraf/extra');
+const debug = require('debug')('bot:commands');
 
 const markup = Extra.markdown();
 
 module.exports = ctx => {
+  debug('/help user: %s', ctx.message.from.username);
   return ctx.reply(
     'Type `@' +
       ctx.botInfo.username +

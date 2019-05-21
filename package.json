@@ -4,7 +4,7 @@
     "dotenv": "^8.0.0",
     "es6-promisify": "^6.0.1",
     "forever": "^1.0.0",
-    "google": "^2.1.0",
+    "googleapis": "^40.0.0",
     "he": "^1.2.0",
     "socks-proxy-agent": "^4.0.2",
     "telegraf": "^3.29.0",
