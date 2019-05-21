@@ -5,6 +5,14 @@ const logger = require('./logger');
 try {
   const bot = require('./bot');
 
+  if (
+    process.env.WEB_HOOKS &&
+    process.env.WEB_HOOKS.toLocaleLowerCase() === 'true'
+  ) {
+    bot.telegram.setWebhook(process.env.WEB_HOOKS_SECRET_URL);
+    bot.startWebhook('/secret-path', null, process.env.PORT || 80);
+  }
+
   bot
     .launch()
     .then(() => {
