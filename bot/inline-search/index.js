@@ -1,90 +1,47 @@
 const debug = require('debug')('main:bot:inline-search');
 const logger = require('./../../logger');
-const {
-  googleSearch,
-  googleSearchImage,
-  resultsPerPage,
-} = require('./google-search-api');
+const { sendErrorResult } = require('./common');
 
-const cacheTime = 86400; // one day
+const googleSearch = require('./google-search');
+const imagesSearch = require('./images-search');
+const videosSearch = require('./videos-search');
 
 module.exports = async ctx => {
   try {
-    debug(
-      'Inline query user: %s, query: %O',
-      ctx.from.username,
-      ctx.inlineQuery,
-    );
+    const { query, queryType } = _formatQuery(ctx);
 
-    const offset = parseInt(ctx.inlineQuery.offset) || 0;
-    let query = ctx.inlineQuery.query.trim();
+    debug('Inline query %O', ctx.inlineQuery);
 
-    if (!query) {
-      debug('Empty query');
-      return ctx.answerInlineQuery([], { cache_time: cacheTime });
-    }
-
-    let inlineQueryResults = null;
-
-    debug('Searching for: %s', query);
-    if (query.match(/\simages?$/)) {
-      query = query.replace(/\simages?$/, '');
-      inlineQueryResults = await googleSearchImage(query, offset + 1);
+    if (queryType === 'images') {
+      return await imagesSearch(query, ctx);
+    } else if (queryType === 'videos') {
+      return await videosSearch(query, ctx);
     } else {
-      inlineQueryResults = await googleSearch(query, offset + 1);
+      return await googleSearch(query, ctx);
     }
-    debug('Done searching for: %s', query);
-
-    // Sending "Nothing Found" message only when
-    // offset === 0, in other words, when requested
-    // the first page of results. (see 'offset' parameter in telegrams' docs )
-    if (offset === 0 && inlineQueryResults.length === 0) {
-      debug('Nothing was found for: %s', query);
-      return sendNothingFound(ctx);
-    }
-
-    debug('Answering to inline query "%s"', query);
-    return ctx.answerInlineQuery(inlineQueryResults, {
-      // if search didn't give a result, then there is no more results,
-      // so setting next_offset to empty value will prevent
-      // telegram from sending "Load More" requests
-      next_offset: inlineQueryResults.length ? offset + resultsPerPage : '',
-      cache_time: cacheTime, // one day
-    });
   } catch (err) {
-    debug('Error: %O', err);
+    debug('ERROR CATCHED: %s', err);
     logger.error({ error: err });
     return sendErrorResult(ctx);
   }
 };
 
-function sendNothingFound(ctx) {
-  return ctx.answerInlineQuery(
-    [
-      {
-        type: 'article',
-        id: '0',
-        title: 'Sorry 😕. Nothing was found.',
-        input_message_content: {
-          message_text: 'Sorry 😕. Nothing was found.',
-        },
-      },
-    ],
-    {
-      cache_time: cacheTime,
-    },
-  );
-}
+function _formatQuery(ctx) {
+  let query = ctx.inlineQuery.query.trim();
+  let queryType = null; // "images" | "videos" | "search"
 
-function sendErrorResult(ctx) {
-  return ctx.answerInlineQuery([
-    {
-      type: 'article',
-      id: '0',
-      title: 'We are sorry 😥. Error ocurred.',
-      input_message_content: {
-        message_text: 'We are sorry 😥. Error ocurred.',
-      },
-    },
-  ]);
+  if (query.match(/\simages?$/)) {
+    query = query.replace(/\simages?$/, '').trim();
+    queryType = 'images';
+  } else if (query.match(/\svideos?$/)) {
+    query = query.replace(/\svideos?$/, '').trim();
+    queryType = 'videos';
+  } else {
+    queryType = 'search';
+  }
+
+  return {
+    query,
+    queryType,
+  };
 }
