@@ -6,6 +6,12 @@ const youtube = require('googleapis').google.youtube('v3');
 const apiKey = process.env.GOOGLE_API_KEY;
 const cacheTime = 86400; // one day
 
+/**
+ * Handler for inline videos search queries.
+ *
+ * @param {String} query Query string, that will be used for searching. Used when query have to be modified before calling this handler.
+ * @param {Object} ctx Request context
+ */
 module.exports = async function videosSearch(query, ctx) {
   if (!query) {
     debug('Empty query');
@@ -28,6 +34,15 @@ module.exports = async function videosSearch(query, ctx) {
   });
 };
 
+/**
+ * Searches by given parameters and returns
+ * result in a schema for answering to inline queries.
+ *
+ * @private
+ * @param {String} query
+ * @param {Number?} pageToken Token from page that should be returned. If omitted, first page will be returned. (read about this in YouTube Data API docs)
+ * @returns {{nextPageToken: String, results: Object[]}}
+ */
 async function _searchYoutube(query, pageToken) {
   debug('Requesting YouTube %s', query);
   const { data } = await youtube.search.list({
@@ -49,6 +64,13 @@ async function _searchYoutube(query, pageToken) {
   };
 }
 
+/**
+ * Formats search result returned from googleapis
+ * to schema for answering to inline queries.
+ *
+ * @private
+ * @param {Object[]} items
+ */
 function _formatYouTubeSearchItems(items) {
   return items.map((item, i) => {
     return {

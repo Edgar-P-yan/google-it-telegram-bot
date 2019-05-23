@@ -9,10 +9,16 @@ const [apiKey, engineId] = [
   process.env.GCS_ENGINE_ID,
 ];
 const resultsPerPage = 10;
-const cacheTime = 86400;
+const cacheTime = 86400; // one day
 
 const customSearch = google.customsearch('v1');
 
+/**
+ * Handler for inline google search queries.
+ *
+ * @param {String} query Query string, that will be used for searching. Used when query have to be modified before calling this handler.
+ * @param {Object} ctx Request context
+ */
 module.exports = async function googleSearch(query, ctx) {
   if (!query) {
     debug('Empty query');
@@ -43,6 +49,15 @@ module.exports = async function googleSearch(query, ctx) {
   });
 };
 
+/**
+ * Searches by given parameters and returns
+ * result in a schema for answering to inline queries.
+ *
+ * @private
+ * @param {String} query
+ * @param {Number} start Search result count from which items will start. Eg. if the first page had 10 items, the next page will start with 11th item.
+ * @returns {Object[]}
+ */
 async function _googleSearchAPI(query, start) {
   debug('Requesting CSE %s', query);
   const res = await customSearch.cse.list({
@@ -52,11 +67,20 @@ async function _googleSearchAPI(query, start) {
     start: start,
     num: resultsPerPage,
   });
+  res.data.items.find(f => f);
   debug('Result received from CSE for %s', query);
 
   return _formatSearchItems(res.data.items || []);
 }
 
+/**
+ * Formats search result returned from googleapis
+ * to schema for answering to inline queries.
+ *
+ * @private
+ * @param {Object[]} items
+ * @returns {Object[]}
+ */
 function _formatSearchItems(items) {
   const inlineQueryAnswer = items.map((item, i) => {
     const thumb = _resolveThumb(item);
@@ -87,6 +111,14 @@ function _formatSearchItems(items) {
   return inlineQueryAnswer;
 }
 
+/**
+ * Finds most usable thumbnail for given
+ * search result item.
+ *
+ * @private
+ * @param {Object} item Search result item.
+ * @returns {{url: String, width: Number, height: Number}}
+ */
 function _resolveThumb(item) {
   if (
     _.isFunction(_.get(item, 'pagemap.cse_thumbnail[0].src.match', null)) &&

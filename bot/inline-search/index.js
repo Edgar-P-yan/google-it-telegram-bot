@@ -22,10 +22,19 @@ module.exports = async ctx => {
   } catch (err) {
     debug('ERROR CATCHED: %s', err);
     logger.error({ error: err });
-    return sendErrorResult(ctx);
+    return await sendErrorResult(ctx);
   }
 };
 
+/**
+ * Detects the queryType (what query is searching for),
+ * it can be one of "images" | "videos" | "search"
+ * and modifies query if needed.
+ *
+ * @private
+ * @param {Object} ctx
+ * @returns {{query: String, queryType: "images" | "videos" | "search"}}
+ */
 function _formatQuery(ctx) {
   let query = ctx.inlineQuery.query.trim();
   let queryType = null; // "images" | "videos" | "search"

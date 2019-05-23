@@ -12,6 +12,12 @@ const cacheTime = 86400;
 
 const customSearch = google.customsearch('v1');
 
+/**
+ * Handler for inline images search queries.
+ *
+ * @param {String} query Query string, that will be used for searching. Used when query have to be modified before calling this handler.
+ * @param {Object} ctx Request context
+ */
 module.exports = async function googleSearch(query, ctx) {
   if (!query) {
     debug('Empty query');
@@ -40,6 +46,15 @@ module.exports = async function googleSearch(query, ctx) {
   });
 };
 
+/**
+ * Searches by given parameters and returns
+ * result in a schema for answering to inline queries.
+ *
+ * @private
+ * @param {String} query
+ * @param {Number} start Search result count from which items will start. Eg. if the first page had 10 items, the next page will start with 11th item.
+ * @returns {Object[]}
+ */
 async function _googleImagesAPI(query, start) {
   const res = await customSearch.cse.list({
     cx: engineId,
@@ -53,6 +68,15 @@ async function _googleImagesAPI(query, start) {
 
   return _formatImageSearchItems(res.data.items);
 }
+
+/**
+ * Formats search result returned from googleapis
+ * to schema for answering to inline queries.
+ *
+ * @private
+ * @param {Object[]} items
+ * @returns {Object[]}
+ */
 
 function _formatImageSearchItems(items) {
   return items.map((item, i) => {
