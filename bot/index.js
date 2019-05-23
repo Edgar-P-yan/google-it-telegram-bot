@@ -1,14 +1,14 @@
 const logger = require('./../logger');
 const debug = require('debug')('main:bot');
 const bot = require('./telegraf')();
-const onlyPrivate = require('./middlewares/only-private');
+const noDirectRequestsInGroups = require('./middlewares/no-direct-requests-in-groups');
 
 bot.catch(err => {
   debug(err);
   logger.error({ error: err });
 });
 
-bot.use(onlyPrivate);
+bot.use(noDirectRequestsInGroups);
 
 bot.start(require('./commands/start.command'));
 bot.help(require('./commands/help.command'));
