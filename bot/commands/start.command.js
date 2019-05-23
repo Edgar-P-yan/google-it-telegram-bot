@@ -11,14 +11,14 @@ module.exports = ctx => {
       ctx.from.first_name +
       (ctx.from.last_name ? ' ' + ctx.from.last_name : '') +
       '! 🎉\n' +
-      'This bot is an inline search engine. 👌\n' +
-      'It helps to **search on Google** and **share links** in any chat or group.\n' +
-      'Its pretty easy. You just start your message with `@' +
-      ctx.botInfo.username +
-      ' ...` and you are ready to search!\n' +
-      "Let's try this out. Type `@" +
-      ctx.botInfo.username +
-      ' happy cats` and send me some links about them! 😻',
+      'I am an inline bot for searching *WEB*, *IMAGES*, *VIDEOS*.\n' +
+      'Usage.\n\n' +
+      '🔎 First of all, type `@Google_itBot `, and then type anything you' +
+      'want to search. For example `@Google_itBot cats`, and it will show search results.\n' +
+      '🖼️ *Wanna search images?* Just type `images` next to it. `Google_itBot cats images`.\n' +
+      '🎞️ *Wanna search videos?* Just type `videos` next to it. `@Google_itBot cats videos`.\n' +
+      `📤 *Wanna share the result?* Just tap on the result.\n\n` +
+      "*LET'S DO THIS*. Type `@Google_itBot funny cats images` and share with me some images of them!",
     markup,
   );
 };
