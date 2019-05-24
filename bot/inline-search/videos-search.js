@@ -44,6 +44,7 @@ module.exports = async function videosSearch(query, ctx) {
  *
  * @private
  * @param {String} query
+ * @param {String} lang Language code (ISO format) relative which the search result will be returned
  * @param {Number?} pageToken Token from page that should be returned. If omitted, first page will be returned. (read about this in YouTube Data API docs)
  * @returns {{nextPageToken: String, results: Object[]}}
  */

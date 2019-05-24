@@ -59,6 +59,7 @@ module.exports = async function googleSearch(query, ctx) {
  *
  * @private
  * @param {String} query
+ * @param {String} lang Language code (ISO format) relative which the search result will be returned
  * @param {Number} start Search result count from which items will start. Eg. if the first page had 10 items, the next page will start with 11th item.
  * @returns {Object[]}
  */
