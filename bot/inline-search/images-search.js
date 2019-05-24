@@ -18,7 +18,7 @@ const customSearch = google.customsearch('v1');
  * @param {String} query Query string, that will be used for searching. Used when query have to be modified before calling this handler.
  * @param {Object} ctx Request context
  */
-module.exports = async function googleSearch(query, ctx) {
+module.exports = async function imagesSearch(query, ctx) {
   if (!query) {
     debug('Empty query');
     return await ctx.answerInlineQuery([], {
@@ -28,7 +28,11 @@ module.exports = async function googleSearch(query, ctx) {
 
   const offset = +ctx.inlineQuery.offset || 0;
 
-  const inlineResults = await _googleImagesAPI(query, offset + 1);
+  const inlineResults = await _googleImagesAPI(
+    query,
+    ctx.from.language_code,
+    offset + 1,
+  );
 
   if (inlineResults.length === 0 && offset === 0) {
     // Sending "Nothing Found" message only when
@@ -55,15 +59,17 @@ module.exports = async function googleSearch(query, ctx) {
  * @param {Number} start Search result count from which items will start. Eg. if the first page had 10 items, the next page will start with 11th item.
  * @returns {Object[]}
  */
-async function _googleImagesAPI(query, start) {
+async function _googleImagesAPI(query, lang, start) {
   const res = await customSearch.cse.list({
     cx: engineId,
     auth: apiKey,
     q: query,
+    hl: lang,
     start: start,
     num: resultsPerPage,
     searchType: 'image',
     fileType: 'jpeg',
+    fields: 'items(link,image(width,height,thumbnailLink),title)',
   });
 
   return _formatImageSearchItems(res.data.items);
@@ -87,7 +93,6 @@ function _formatImageSearchItems(items) {
       photo_width: item.image.width,
       photo_height: item.image.height,
       title: item.title || '',
-      description: item.snippet || '',
       thumb_url: item.image.thumbnailLink || undefined,
     };
   });

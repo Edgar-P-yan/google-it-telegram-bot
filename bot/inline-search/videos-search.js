@@ -20,7 +20,11 @@ module.exports = async function videosSearch(query, ctx) {
 
   const pageToken = ctx.inlineQuery.offset || undefined;
 
-  const { results, nextPageToken } = await _searchYoutube(query, pageToken);
+  const { results, nextPageToken } = await _searchYoutube(
+    query,
+    ctx.from.language_code,
+    pageToken,
+  );
 
   if (results.length === 0) {
     debug('Nothing found for %s', query);
@@ -43,7 +47,7 @@ module.exports = async function videosSearch(query, ctx) {
  * @param {Number?} pageToken Token from page that should be returned. If omitted, first page will be returned. (read about this in YouTube Data API docs)
  * @returns {{nextPageToken: String, results: Object[]}}
  */
-async function _searchYoutube(query, pageToken) {
+async function _searchYoutube(query, lang, pageToken) {
   debug('Requesting YouTube %s', query);
   const { data } = await youtube.search.list({
     part: 'snippet',
@@ -51,6 +55,7 @@ async function _searchYoutube(query, pageToken) {
     maxResults: 20,
     type: 'video',
     videoEmbeddable: true,
+    relevanceLanguage: lang,
     key: apiKey,
     pageToken: pageToken || undefined,
     fields:

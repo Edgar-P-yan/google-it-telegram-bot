@@ -29,7 +29,11 @@ module.exports = async function googleSearch(query, ctx) {
 
   const offset = +ctx.inlineQuery.offset || 0;
 
-  const inlineResults = await _googleSearchAPI(query, offset + 1);
+  const inlineResults = await _googleSearchAPI(
+    query,
+    ctx.from.language_code,
+    offset + 1,
+  );
 
   if (inlineResults.length === 0 && offset === 0) {
     // Sending "Nothing Found" message only when
@@ -58,16 +62,18 @@ module.exports = async function googleSearch(query, ctx) {
  * @param {Number} start Search result count from which items will start. Eg. if the first page had 10 items, the next page will start with 11th item.
  * @returns {Object[]}
  */
-async function _googleSearchAPI(query, start) {
+async function _googleSearchAPI(query, lang, start) {
   debug('Requesting CSE %s', query);
   const res = await customSearch.cse.list({
     cx: engineId,
     auth: apiKey,
     q: query,
+    hl: lang,
     start: start,
     num: resultsPerPage,
+    fields: 'items(title,link,snippet,pagemap(cse_thumbnail,cse_image))',
   });
-  res.data.items.find(f => f);
+
   debug('Result received from CSE for %s', query);
 
   return _formatSearchItems(res.data.items || []);
