@@ -1,14 +1,11 @@
 const dotenv = require('dotenv');
+const debug = require('debug')('app:config-env');
 
 module.exports = function config() {
-  const result = dotenv.config({
-    path:
-      process.env.ENV && process.env.ENV.toLowerCase().trim() === 'heroku'
-        ? './.heroku.env'
-        : './.env',
-  });
-  if (result.error) {
-    throw result.error;
+  if (process.env.NODE_ENV !== 'production') {
+    const result = dotenv.config();
+    if (result.error) {
+      debug(result.error);
+    }
   }
-  return result;
 };
