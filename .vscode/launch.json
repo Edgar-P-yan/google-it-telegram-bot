@@ -10,7 +10,7 @@
       "name": "Launch Program",
       "program": "${workspaceFolder}\\index.js",
       "env": {
-        "DEBUG": "main,main:*,telegraf*",
+        "DEBUG": "app,app:*,telegraf:*",
         "DEBUG_COLORS": "true"
       }
     }
