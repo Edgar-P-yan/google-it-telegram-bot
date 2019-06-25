@@ -1,4 +1,4 @@
-const debug = require('debug')('main:bot:inline-search');
+const debug = require('debug')('app:bot:inline-search');
 const logger = require('./../../logger');
 const { sendErrorResult } = require('./common');
 

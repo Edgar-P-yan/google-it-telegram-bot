@@ -1,4 +1,4 @@
-const debug = require('debug')('main:bot:inline-search:google');
+const debug = require('debug')('app:bot:inline-search:google');
 const { google } = require('googleapis');
 const { sendNothingFound } = require('./common');
 

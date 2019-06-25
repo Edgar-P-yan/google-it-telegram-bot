@@ -1,4 +1,4 @@
-const debug = require('debug')('main:bot:inline-search:videos');
+const debug = require('debug')('app:bot:inline-search:videos');
 const { sendNothingFound } = require('./common');
 const htmlEntities = require('he');
 const youtube = require('googleapis').google.youtube('v3');

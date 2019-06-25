@@ -1,5 +1,5 @@
 require('./config-env')();
-const debug = require('debug')('main');
+const debug = require('debug')('app');
 const logger = require('./logger');
 
 try {

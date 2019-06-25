@@ -1,5 +1,5 @@
 const Extra = require('telegraf/extra');
-const debug = require('debug')('bot:commands');
+const debug = require('debug')('app:bot:commands');
 
 const markup = Extra.markdown();
 

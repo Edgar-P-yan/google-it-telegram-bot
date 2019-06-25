@@ -1,5 +1,5 @@
 const logger = require('./../logger');
-const debug = require('debug')('main:bot');
+const debug = require('debug')('app:bot');
 const bot = require('./telegraf')();
 const noDirectRequestsInGroups = require('./middlewares/no-direct-requests-in-groups');
 
