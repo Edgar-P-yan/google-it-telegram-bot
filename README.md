@@ -1,12 +1,12 @@
 ![alt text](./docs/assets/hero-logo.png "@Google_itBot's logo ")
 
-# `@Google_itBot` Telegram Inline BOT
+# @Google_itBot Telegram Inline BOT
 
 ## **This bot is working at [@Google_itBot](https://t.me/Google_itBot)**
 
 ## What can this bot do?
 
-This bot can search web in inline mode and share founded links. Also you can specify what to search: images or videos or the web.
+This bot can search web in inline mode and share founded links. Also you can specify what to search: images, videos or the web.
 
 ## Simple usage example
 
@@ -24,7 +24,11 @@ This bot can search web in inline mode and share founded links. Also you can spe
 
 ## How to configure?
 
-All configuration settings is set in the `.env` files. Check out `.example.env` to get details about how to set configuration variables.
+In production all configuration variables should be stored in environment variables.
+
+In development configuration variables can be stored in `.env` file. Then they will be loaded using dotenv.
+
+See `.example.env` for details about config variables.
 
 ## Does it have limits?
 
