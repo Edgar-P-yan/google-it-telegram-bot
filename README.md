@@ -2,7 +2,7 @@
 
 # @Google_itBot Telegram Inline BOT
 
-## **This bot is working at [@Google_itBot](https://t.me/Google_itBot)**
+## **This bot is working at [@Google_itBot](https://tele.click/Google_itBot)**
 
 ## What can this bot do?
 
