@@ -2,10 +2,7 @@ const debug = require('debug')('app:bot:inline-search:google');
 const { google } = require('googleapis');
 const { sendNothingFound } = require('./common');
 
-const [apiKey, engineId] = [
-  process.env.GOOGLE_API_KEY,
-  process.env.GCS_ENGINE_ID,
-];
+const {GOOGLE_API_KEY, GCS_ENGINE_ID} = process.env
 
 const resultsPerPage = 10;
 const cacheTime = 86400;
@@ -62,8 +59,8 @@ module.exports = async function imagesSearch(query, ctx) {
  */
 async function _googleImagesAPI(query, lang, start) {
   const res = await customSearch.cse.list({
-    cx: engineId,
-    auth: apiKey,
+    cx: GCS_ENGINE_ID,
+    auth: GOOGLE_API_KEY,
     q: query,
     hl: lang,
     start: start,
