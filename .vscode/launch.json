@@ -8,11 +8,16 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}\\index.js",
+      "program": "${workspaceFolder}/src/index.ts",
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
       "env": {
-        "DEBUG": "app,app:*,telegraf:*",
+        "DEBUG": "app:*",
         "DEBUG_COLORS": "true"
-      }
+      },
+      "console": "integratedTerminal"
     }
   ]
 }

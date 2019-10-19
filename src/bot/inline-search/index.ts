@@ -1,17 +1,19 @@
-const debug = require('debug')('app:bot:inline-search');
-const logger = require('./../../logger');
-const { sendErrorResult } = require('./common');
+import {ContextMessageUpdate} from 'telegraf'
+import _debug from 'debug'
+const debug = _debug('app:bot:inline-search');
+import {logger} from './../../logger';
+import { sendErrorResult } from './common';
+import googleSearch from './google-search';
+import imagesSearch from './images-search';
+import videosSearch from './videos-search';
 
-const googleSearch = require('./google-search');
-const imagesSearch = require('./images-search');
-const videosSearch = require('./videos-search');
+export type QueryType = 'images' | 'videos' | 'search'
 
-module.exports = async ctx => {
+export async function inlineSearchHandler (ctx: ContextMessageUpdate): Promise<void> {
   try {
     const { query, queryType } = _formatQuery(ctx);
 
     debug('Inline query %O', ctx.inlineQuery);
-
     if (queryType === 'images') {
       return await imagesSearch(query, ctx);
     } else if (queryType === 'videos') {
@@ -32,12 +34,15 @@ module.exports = async ctx => {
  * and modifies query if needed.
  *
  * @private
- * @param {Object} ctx
- * @returns {{query: String, queryType: "images" | "videos" | "search"}}
+ * @param {ContextMessageUpdate} ctx
+ * @returns {{query: String, queryType: QueryType}}
  */
-function _formatQuery(ctx) {
+function _formatQuery(ctx: ContextMessageUpdate): {
+  query: string,
+  queryType: QueryType
+} {
   let query = ctx.inlineQuery.query.trim();
-  let queryType = null; // "images" | "videos" | "search"
+  let queryType: QueryType = null; // "images" | "videos" | "search"
 
   if (query.match(/\simages?$/)) {
     query = query.replace(/\simages?$/, '').trim();
