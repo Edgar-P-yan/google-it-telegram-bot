@@ -1,16 +1,17 @@
-require('./config-env')();
-const debug = require('debug')('app');
-const logger = require('./logger');
+import { configEnv } from './config-env';
+configEnv();
+import { logger } from './logger';
+import { bot } from './bot';
+import _debug from 'debug';
+const debug = _debug('app:main');
 
 try {
-  const bot = require('./bot');
-
   if (
     process.env.WEB_HOOKS &&
     process.env.WEB_HOOKS.toLocaleLowerCase() === 'true'
   ) {
     bot.telegram.setWebhook(process.env.WEB_HOOKS_SECRET_URL);
-    bot.startWebhook('/secret-path', null, process.env.PORT || 80);
+    bot.startWebhook('/secret-path', null, +process.env.PORT || 80);
   }
 
   bot
@@ -18,7 +19,7 @@ try {
     .then(() => {
       debug('launched');
     })
-    .catch(err => {
+    .catch((err: any) => {
       logger.error({ error: err });
       debug('Error: %O', err);
       debug('Exiting process with code 1');

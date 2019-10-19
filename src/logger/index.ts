@@ -1,6 +1,6 @@
-const winston = require('winston');
+import winston from 'winston';
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.timestamp(),
 
@@ -36,5 +36,3 @@ if (process.env.NODE_ENV === 'development') {
     }),
   );
 }
-
-module.exports = logger;

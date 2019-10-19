@@ -1,12 +1,13 @@
-const Extra = require('telegraf/extra');
-const debug = require('debug')('app:bot:commands');
-
+import {ContextMessageUpdate} from 'telegraf'
+import Extra from 'telegraf/extra';
+import _debug from 'debug'
+const debug = _debug('app:bot:commands');
 const markup = Extra.markdown();
 
-module.exports = ctx => {
+export async function startCommandHandler (ctx: ContextMessageUpdate): Promise<void> {
   debug('/start user: %s', ctx.from.username);
 
-  return ctx.reply(
+  await ctx.reply(
     'Hi ' +
       ctx.from.first_name +
       (ctx.from.last_name ? ' ' + ctx.from.last_name : '') +
@@ -21,4 +22,5 @@ module.exports = ctx => {
       "*LET'S DO THIS*. Type `@Google_itBot funny cats images` and share with me some images of them!",
     markup,
   );
+  return
 };
