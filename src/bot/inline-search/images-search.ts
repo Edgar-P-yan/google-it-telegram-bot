@@ -3,11 +3,11 @@ import {InlineQueryResult} from 'telegraf/typings/telegram-types'
 import { google, customsearch_v1 } from 'googleapis';
 import { sendNothingFound } from './common';
 import _ from 'lodash';
+import * as config from './../../config'
 import _debug from 'debug'
 const debug = _debug('app:bot:inline-search:google');
 const customSearch = google.customsearch('v1');
 
-const {GOOGLE_API_KEY, GCS_ENGINE_ID} = process.env
 const RESULTS_PER_PAGE = 10;
 const CACHE_TIME = 86400;
 
@@ -60,14 +60,17 @@ export default async function imagesSearch(query: string, ctx: ContextMessageUpd
  *
  * @private
  * @param {String} query
- * @param {String} lang Language code (ISO format) relative which the search result will be returned
- * @param {Number} start Search result count from which items will start. Eg. if the first page had 10 items, the next page will start with 11th item.
+ * @param {String} lang Language code (ISO format)
+ * relative which the search result will be returned
+ * @param {Number} start Search result count from which
+ * items will start. Eg. if the first page had 10 items,
+ * the next page will start with 11th item.
  * @returns {Promise<InlineQueryResult[]>}
  */
 async function _googleImagesAPI(query: string, lang: string, start: number): Promise<InlineQueryResult[]> {
   const res = await customSearch.cse.list({
-    cx: GCS_ENGINE_ID,
-    auth: GOOGLE_API_KEY,
+    cx: config.get('GCS_ENGINE_ID'),
+    auth: config.get('GOOGLE_API_KEY'),
     q: query,
     hl: lang,
     start: start,

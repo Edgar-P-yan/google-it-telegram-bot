@@ -1,12 +1,13 @@
 import Telegraf from 'telegraf';
 import SocksProxyAgent from 'socks-proxy-agent' 
+import * as config from './../config'
 
 export function makeTelegrafBot() {
-  const bot = new Telegraf(process.env.BOT_TOKEN, {
+  const bot = new Telegraf(config.get('BOT_TOKEN'), {
     telegram: {
       agent:
-        (process.env.SOCKS_PROXY && 
-          new SocksProxyAgent(process.env.SOCKS_PROXY)) || null,
+        (config.get('SOCKS_PROXY') && 
+          new SocksProxyAgent(config.get('SOCKS_PROXY'))) || null,
     },
   });
 
