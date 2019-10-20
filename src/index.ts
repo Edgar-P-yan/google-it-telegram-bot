@@ -1,17 +1,13 @@
-import { configEnv } from './config-env';
-configEnv();
+import * as config from './config'
 import { logger } from './logger';
 import { bot } from './bot';
 import _debug from 'debug';
 const debug = _debug('app:main');
 
 try {
-  if (
-    process.env.WEB_HOOKS &&
-    process.env.WEB_HOOKS.toLocaleLowerCase() === 'true'
-  ) {
-    bot.telegram.setWebhook(process.env.WEB_HOOKS_SECRET_URL);
-    bot.startWebhook('/secret-path', null, +process.env.PORT || 80);
+  if (config.get('WEB_HOOKS')) {
+    bot.telegram.setWebhook(config.get('WEB_HOOKS_SECRET_URL'));
+    bot.startWebhook('/secret-path', null, config.get('PORT') || 80);
   }
 
   bot

@@ -3,10 +3,11 @@ import {InlineQueryResult} from 'telegraf/typings/telegram-types'
 import { sendNothingFound } from './common';
 import {encode} from './../../utils/he-encode'
 import {google, youtube_v3 } from 'googleapis'
+import * as config from './../../config'
 import _debug from 'debug'
 const debug = _debug('app:bot:inline-search:videos');
 const youtube = google.youtube('v3');
-const {GOOGLE_API_KEY} = process.env;
+
 const CACHE_TIME = 86400; // one day
 
 /**
@@ -69,7 +70,7 @@ async function _searchYoutube(
     type: 'video',
     videoEmbeddable: 'true',
     relevanceLanguage: lang,
-    key: GOOGLE_API_KEY,
+    key: config.get('GOOGLE_API_KEY'),
     pageToken: pageToken || undefined,
     fields:
       'items(id/videoId,snippet(channelTitle,thumbnails/default/url,title)),nextPageToken',
