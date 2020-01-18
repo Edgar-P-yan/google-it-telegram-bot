@@ -1,29 +1,27 @@
-import * as config from './config'
-import { logger } from './logger';
-import { bot } from './bot';
+import { container } from './inversify.config';
+import { TYPES } from './types';
+import { IBot, NSConfig } from './interfaces';
+import winston from 'winston';
 import _debug from 'debug';
-const debug = _debug('app:main');
+const debug = _debug('app:bot:inline-search');
 
-try {
+const botService = container.get<IBot>(TYPES.Bot);
+const config = container.get<NSConfig.IService>(TYPES.Config);
+const logger = container.get<winston.Logger>(TYPES.Logger);
+
+async function bootstrap() {
   if (config.get('WEB_HOOKS')) {
-    bot.telegram.setWebhook(config.get('WEB_HOOKS_SECRET_URL'));
-    bot.startWebhook('/secret-path', null, config.get('PORT') || 80);
+    botService.bot.telegram.setWebhook(config.get('WEB_HOOKS_SECRET_URL'));
+    botService.bot.startWebhook('/secret-path', null, config.get('PORT') || 80);
   }
 
-  bot
-    .launch()
-    .then(() => {
-      debug('launched');
-    })
-    .catch((err: any) => {
-      logger.error({ error: err });
-      debug('Error: %O', err);
-      debug('Exiting process with code 1');
-      process.exit(1);
-    });
-} catch (err) {
-  logger.error({ error: err });
-  debug('Error: %O', err);
-  debug('Exiting process with code 1');
-  process.exit(1);
+  await botService.bot.launch();
+  debug('launched');
 }
+
+bootstrap().catch(error => {
+  debug('BootstrapError: %O', error);
+  logger.error(`BootstrapError`, error);
+  console.error(error);
+  process.exit(1);
+});

@@ -9,7 +9,7 @@ import {Context} from 'telegraf'
  * 
  * @TODO why we are returning boolean??
  */
-export default function noDirectRequestsInGroups (ctx: Context, next: Function): Promise<any> | boolean {
+export function noDirectRequestsInGroups (ctx: Context, next: Function): Promise<any> | boolean {
   if (!ctx.chat || ctx.chat.type === 'private') {
     if (typeof next === 'function') {
       return next();

@@ -5,10 +5,12 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "noImplicitAny": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "paths": {
       "*": [
         "node_modules/*",
@@ -17,6 +19,6 @@
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "ioc"
   ]
 }
