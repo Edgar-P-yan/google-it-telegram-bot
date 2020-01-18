@@ -4,7 +4,7 @@ export function createLogger(): winston.Logger {
   const logger = winston.createLogger({
     format: winston.format.combine(
       winston.format.timestamp(),
-  
+
       // this serializes errors, usage logger.error({error: error})
       winston.format.json({
         replacer(key, val) {
@@ -28,7 +28,7 @@ export function createLogger(): winston.Logger {
       }),
     ],
   });
-  
+
   if (process.env.NODE_ENV === 'development') {
     logger.transports.push(
       new winston.transports.Console({
@@ -38,5 +38,5 @@ export function createLogger(): winston.Logger {
     );
   }
 
-  return logger
+  return logger;
 }

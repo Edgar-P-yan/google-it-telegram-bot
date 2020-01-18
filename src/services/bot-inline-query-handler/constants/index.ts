@@ -1,1 +1,1 @@
-export * from './QueryType.enum'
+export * from './QueryType.enum';

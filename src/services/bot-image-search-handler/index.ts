@@ -1,1 +1,1 @@
-export * from './bot-image-search-handler.service'
+export * from './bot-image-search-handler.service';

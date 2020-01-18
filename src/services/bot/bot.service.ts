@@ -5,14 +5,14 @@ import _ from 'lodash';
 import winston from 'winston';
 import { NSConfig, IBot, NSBotInlineQueryHandlers } from '../../interfaces';
 import { TYPES } from '../../types';
-import { noDirectRequestsInGroups } from './middlewares'
-import { helpCommandHandler, startCommandHandler } from './commands'
+import { noDirectRequestsInGroups } from './middlewares';
+import { helpCommandHandler, startCommandHandler } from './commands';
 import _debug from 'debug';
 const debug = _debug('app:bot');
 
 @injectable()
 export class BotService implements IBot {
-  public bot: Telegraf<ContextMessageUpdate>
+  public bot: Telegraf<ContextMessageUpdate>;
 
   constructor(
     @inject(TYPES.Config)
@@ -20,26 +20,29 @@ export class BotService implements IBot {
     @inject(TYPES.Logger)
     private readonly logger: winston.Logger,
     @inject(TYPES.BotInlineQueryHandler)
-    private readonly inlineQueryHandler: NSBotInlineQueryHandlers.IInlineQueryHandler
+    private readonly inlineQueryHandler: NSBotInlineQueryHandlers.IInlineQueryHandler,
   ) {
-    this.bot = this.initBot()
+    this.bot = this.initBot();
   }
 
   private initBot(): Telegraf<ContextMessageUpdate> {
-    const bot = this.createTelegramBot()
-    
+    const bot = this.createTelegramBot();
+
     bot.catch((err: any) => {
       debug(err);
       this.logger.error({ error: err });
     });
-    
+
     bot.use(noDirectRequestsInGroups);
-    
+
     bot.start(startCommandHandler);
     bot.help(helpCommandHandler);
-    bot.on('inline_query', this.inlineQueryHandler.handler.bind(this.inlineQueryHandler));
-    
-    return bot
+    bot.on(
+      'inline_query',
+      this.inlineQueryHandler.handler.bind(this.inlineQueryHandler),
+    );
+
+    return bot;
   }
 
   private createTelegramBot(): Telegraf<ContextMessageUpdate> {

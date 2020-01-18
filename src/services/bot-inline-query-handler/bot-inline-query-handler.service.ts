@@ -9,7 +9,8 @@ import _debug from 'debug';
 const debug = _debug('app:bot:inline-search');
 
 @injectable()
-export class BotInlineQueryHandler implements NSBotInlineQueryHandlers.IInlineQueryHandler {
+export class BotInlineQueryHandler
+  implements NSBotInlineQueryHandlers.IInlineQueryHandler {
   constructor(
     @inject(TYPES.Logger)
     private readonly logger: winston.Logger,
@@ -41,7 +42,7 @@ export class BotInlineQueryHandler implements NSBotInlineQueryHandlers.IInlineQu
           break;
       }
 
-      debug('Query processed %O', ctx.inlineQuery)
+      debug('Query processed %O', ctx.inlineQuery);
     } catch (err) {
       debug('ERROR CATCHED: %s', err);
       this.logger.error({ error: err });

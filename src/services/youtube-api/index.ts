@@ -1,1 +1,1 @@
-export * from './youtube-api.service'
+export * from './youtube-api.service';

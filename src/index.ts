@@ -22,6 +22,7 @@ async function bootstrap() {
 bootstrap().catch(error => {
   debug('BootstrapError: %O', error);
   logger.error(`BootstrapError`, error);
+  // tslint:disable-next-line no-console
   console.error(error);
   process.exit(1);
 });

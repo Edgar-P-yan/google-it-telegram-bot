@@ -10,7 +10,8 @@ import _debug from 'debug';
 const debug = _debug('app:bot:inline-search:google');
 
 @injectable()
-export class BotImageSearchHandler implements NSBotInlineQueryHandlers.ISpecificSearchTypeHandler {
+export class BotImageSearchHandler
+  implements NSBotInlineQueryHandlers.ISpecificSearchTypeHandler {
   private RESULTS_PER_PAGE = 10;
   private CACHE_TIME = 86400;
 
@@ -26,10 +27,7 @@ export class BotImageSearchHandler implements NSBotInlineQueryHandlers.ISpecific
    * Used when query have to be modified before calling this handler.
    * @param ctx Request context
    */
-  public async handle(
-    query: string,
-    ctx: ContextMessageUpdate,
-  ): Promise<void> {
+  public async handle(query: string, ctx: ContextMessageUpdate): Promise<void> {
     if (!query) {
       debug('Empty query');
       await ctx.answerInlineQuery([], {

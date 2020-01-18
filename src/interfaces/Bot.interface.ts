@@ -1,5 +1,5 @@
-import Telegraf, { ContextMessageUpdate } from "telegraf";
+import Telegraf, { ContextMessageUpdate } from 'telegraf';
 
 export interface IBot {
-  bot: Telegraf<ContextMessageUpdate>
+  bot: Telegraf<ContextMessageUpdate>;
 }

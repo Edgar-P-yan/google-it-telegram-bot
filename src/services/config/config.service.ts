@@ -1,19 +1,21 @@
-import { injectable } from 'inversify'
-import { NSConfig } from '../../interfaces'
+import { injectable } from 'inversify';
+import { NSConfig } from '../../interfaces';
 import dotenv from 'dotenv';
 import Joi from '@hapi/joi';
 
 @injectable()
 export class ConfigService implements NSConfig.IService {
-  public config: NSConfig.IConfigVars
-  
+  public config: NSConfig.IConfigVars;
+
   constructor() {
     dotenv.config();
     this.config = this.validateConfig(process.env);
   }
 
-  public get<Key extends keyof NSConfig.IConfigVars>(key: Key): NSConfig.IConfigVars[Key] {
-    return this.config[key]
+  public get<Key extends keyof NSConfig.IConfigVars>(
+    key: Key,
+  ): NSConfig.IConfigVars[Key] {
+    return this.config[key];
   }
 
   /**
@@ -67,4 +69,3 @@ export class ConfigService implements NSConfig.IService {
     return value as NSConfig.IConfigVars;
   }
 }
-

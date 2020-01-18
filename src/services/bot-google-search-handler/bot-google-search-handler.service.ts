@@ -5,13 +5,14 @@ import { customsearch_v1 } from 'googleapis';
 import { encode } from '../../utils/he-encode';
 import { sendNothingFound } from '../bot-inline-query-handler/common';
 import { NSGoogleCSE, NSBotInlineQueryHandlers } from '../../interfaces';
-import { TYPES } from '../../types'
+import { TYPES } from '../../types';
 import _ from 'lodash';
 import _debug from 'debug';
 const debug = _debug('app:bot:inline-search:google');
 
 @injectable()
-export class BotGoogleSearchHandler implements NSBotInlineQueryHandlers.ISpecificSearchTypeHandler {
+export class BotGoogleSearchHandler
+  implements NSBotInlineQueryHandlers.ISpecificSearchTypeHandler {
   private RESULTS_PER_PAGE = 10;
   private CACHE_TIME = 86400; // one day
 
@@ -26,10 +27,7 @@ export class BotGoogleSearchHandler implements NSBotInlineQueryHandlers.ISpecifi
    * @param query Query string, that will be used for searching. Used when query have to be modified before calling this handler.
    * @param ctx Request context
    */
-  public async handle(
-    query: string,
-    ctx: ContextMessageUpdate,
-  ): Promise<void> {
+  public async handle(query: string, ctx: ContextMessageUpdate): Promise<void> {
     if (!query) {
       debug('Empty query');
       await ctx.answerInlineQuery([], {
@@ -88,8 +86,8 @@ export class BotGoogleSearchHandler implements NSBotInlineQueryHandlers.ISpecifi
       q: query,
       hl: lang,
       start,
-      num: this.RESULTS_PER_PAGE
-    })
+      num: this.RESULTS_PER_PAGE,
+    });
 
     debug('Result received from CSE for %s', query);
 
@@ -141,8 +139,8 @@ export class BotGoogleSearchHandler implements NSBotInlineQueryHandlers.ISpecifi
     const thumbObjPath = [
       'pagemap.cse_thumbnail[0]',
       'pagemap.cse_image[0]',
-    ].find(thumbObjPath =>
-      /^(https?:\/\/).+/.test(_.get(item, thumbObjPath, '')),
+    ].find(_thumbObjPath =>
+      /^(https?:\/\/).+/.test(_.get(item, _thumbObjPath, '')),
     );
     const thumbObj = thumbObjPath ? _.get(item, thumbObjPath, {}) : {};
 

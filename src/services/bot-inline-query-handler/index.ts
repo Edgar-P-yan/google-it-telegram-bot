@@ -1,3 +1,3 @@
-export * from './bot-inline-query-handler.service'
-export * from './common'
-export * from './constants'
+export * from './bot-inline-query-handler.service';
+export * from './common';
+export * from './constants';

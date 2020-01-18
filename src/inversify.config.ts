@@ -11,7 +11,7 @@ import {
 import { ConfigService } from './services/config/config.service';
 import { BotService } from './services/bot/bot.service';
 import { YoutubeAPI } from './services/youtube-api';
-import {GoogleCSEService } from './services/google-cse';
+import { GoogleCSEService } from './services/google-cse';
 import { BotGoogleSearchHandler } from './services/bot-google-search-handler';
 import { BotImageSearchHandler } from './services/bot-image-search-handler';
 import { BotVideosSearchHandler } from './services/bot-videos-search-handler';

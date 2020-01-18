@@ -7,5 +7,5 @@ export const TYPES = {
   BotVideosSearchHandler: Symbol.for('BotVideosSearchHandler'),
   Logger: Symbol.for('Logger'),
   GoogleCSE: Symbol.for('GoogleCSE'),
-  YoutubeAPI: Symbol.for('YoutubeAPI')
+  YoutubeAPI: Symbol.for('YoutubeAPI'),
 };

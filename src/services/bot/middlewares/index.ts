@@ -1,1 +1,1 @@
-export * from './no-direct-requests-in-groups'
+export * from './no-direct-requests-in-groups';

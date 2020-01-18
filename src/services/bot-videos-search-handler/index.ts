@@ -1,1 +1,1 @@
-export * from './bot-videos-search-handler.service'
+export * from './bot-videos-search-handler.service';

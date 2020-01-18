@@ -10,7 +10,8 @@ import _debug from 'debug';
 const debug = _debug('app:bot:inline-search:videos');
 
 @injectable()
-export class BotVideosSearchHandler implements NSBotInlineQueryHandlers.ISpecificSearchTypeHandler {
+export class BotVideosSearchHandler
+  implements NSBotInlineQueryHandlers.ISpecificSearchTypeHandler {
   private CACHE_TIME = 86400; // one day
 
   constructor(

@@ -1,1 +1,1 @@
-export * from './bot-google-search-handler.service'
+export * from './bot-google-search-handler.service';

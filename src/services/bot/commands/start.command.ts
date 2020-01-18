@@ -1,10 +1,12 @@
-import {ContextMessageUpdate} from 'telegraf'
+import { ContextMessageUpdate } from 'telegraf';
 import Extra from 'telegraf/extra';
-import _debug from 'debug'
+import _debug from 'debug';
 const debug = _debug('app:bot:commands');
 const markup = Extra.markdown();
 
-export async function startCommandHandler (ctx: ContextMessageUpdate): Promise<void> {
+export async function startCommandHandler(
+  ctx: ContextMessageUpdate,
+): Promise<void> {
   debug('/start user: %s', ctx.from.username);
 
   await ctx.reply(
@@ -19,5 +21,5 @@ export async function startCommandHandler (ctx: ContextMessageUpdate): Promise<v
       "*LET'S DO THIS*. Type `@Google_itBot funny cats images` and share with me some images of them!",
     markup,
   );
-  return
-};
+  return;
+}

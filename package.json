@@ -1,15 +1,15 @@
 {
   "name": "google-it-telegram-bot",
   "homepage": "https://github.com/Edgar-P-yan/google-it-telegram-bot#readme",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "bugs": "https://github.com/Edgar-P-yan/google-it-telegram-bot/issues",
   "scripts": {
     "build": "rimraf dist && tsc",
     "start": "node dist/index.js",
-    "lint": "eslint .",
-    "style": "prettier --check **/**.ts",
-    "style:fix": "prettier --write **/**.ts"
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "style": "prettier --check \"src/**/*.ts\"",
+    "style:fix": "prettier --write \"src/**/*.ts\""
   },
   "repository": {
     "type": "git",
@@ -41,7 +41,6 @@
     "@types/he": "^1.1.0",
     "@types/lodash": "^4.14.138",
     "@types/node": "^12.7.5",
-    "eslint": "^5.16.0",
     "prettier": "^1.18.2",
     "rimraf": "^3.0.0",
     "tslint": "^5.20.0",

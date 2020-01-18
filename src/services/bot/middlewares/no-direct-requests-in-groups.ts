@@ -1,4 +1,4 @@
-import {Context} from 'telegraf'
+import { Context } from 'telegraf';
 
 /**
  * Middleware, to ensure that request
@@ -6,10 +6,13 @@ import {Context} from 'telegraf'
  * private chat.
  * This will not block inline queries when they are
  * performed in other groups or chats.
- * 
+ *
  * @TODO why we are returning boolean??
  */
-export function noDirectRequestsInGroups (ctx: Context, next: Function): Promise<any> | boolean {
+export function noDirectRequestsInGroups(
+  ctx: Context,
+  next: () => any,
+): Promise<any> | boolean {
   if (!ctx.chat || ctx.chat.type === 'private') {
     if (typeof next === 'function') {
       return next();
@@ -19,4 +22,4 @@ export function noDirectRequestsInGroups (ctx: Context, next: Function): Promise
   } else {
     return false;
   }
-};
+}
