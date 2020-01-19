@@ -1,14 +1,15 @@
 import { injectable, inject } from 'inversify';
 import Telegraf, { ContextMessageUpdate } from 'telegraf';
+import Extra from 'telegraf/extra';
 import SocksProxyAgent from 'socks-proxy-agent';
 import _ from 'lodash';
 import winston from 'winston';
 import { NSConfig, IBot, NSBotInlineQueryHandlers } from '../../interfaces';
 import { TYPES } from '../../types';
 import { noDirectRequestsInGroups } from './middlewares';
-import { helpCommandHandler, startCommandHandler } from './commands';
 import _debug from 'debug';
 const debug = _debug('app:bot');
+const markup = Extra.markdown();
 
 @injectable()
 export class BotService implements IBot {
@@ -35,8 +36,8 @@ export class BotService implements IBot {
 
     bot.use(noDirectRequestsInGroups);
 
-    bot.start(startCommandHandler);
-    bot.help(helpCommandHandler);
+    bot.start(this.startCommandHandler());
+    bot.help(this.helpCommandHandler());
     bot.on(
       'inline_query',
       this.inlineQueryHandler.handler.bind(this.inlineQueryHandler),
@@ -56,5 +57,36 @@ export class BotService implements IBot {
     });
 
     return bot;
+  }
+
+  private helpCommandHandler() {
+    return async (ctx: AdditionalKeys<ContextMessageUpdate>): Promise<void> => {
+      debug('/help user: %s', ctx.from.username);
+      await ctx.reply(
+        'Type `@' +
+          ctx.botInfo.username +
+          ' funny cats` and you will see search result.\n' +
+          'Then click on them to send to me!',
+        markup,
+      );
+    };
+  }
+
+  private startCommandHandler() {
+    return async (ctx: AdditionalKeys<ContextMessageUpdate>): Promise<void> => {
+      debug('/start user: %s', ctx.from.username);
+      await ctx.reply(
+        `Hi ${ctx.from.first_name} ${ctx.from.last_name || ''}! 🎉\n` +
+          'I am an inline bot for searching *WEB*, *IMAGES*, *VIDEOS*.\n' +
+          'Usage.\n\n' +
+          '🔎 First of all, type `@Google_itBot `, and then type anything you' +
+          'want to search. For example `@Google_itBot cats`, and it will show search results.\n' +
+          '🖼️ *Wanna search images?* Just type `images` next to it. `@Google_itBot cats images`.\n' +
+          '🎞️ *Wanna search videos?* Just type `videos` next to it. `@Google_itBot cats videos`.\n' +
+          `📤 *Wanna share the result?* Just tap on the result.\n\n` +
+          '*LET\'S DO THIS*. Type `@Google_itBot funny cats images` and share with me some images of them!',
+        markup,
+      );
+    };
   }
 }
