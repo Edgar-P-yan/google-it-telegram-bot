@@ -8,6 +8,7 @@ import { NSGoogleCSE, NSBotInlineQueryHandlers } from '../../interfaces';
 import { TYPES } from '../../types';
 import _ from 'lodash';
 import _debug from 'debug';
+import winston from 'winston';
 const debug = _debug('app:bot:inline-search:google');
 
 @injectable()
@@ -19,6 +20,8 @@ export class BotGoogleSearchHandler
   constructor(
     @inject(TYPES.GoogleCSE)
     private readonly googleCse: NSGoogleCSE.IService,
+    @inject(TYPES.Logger)
+    private readonly logger: winston.Logger,
   ) {}
 
   /**
@@ -28,6 +31,7 @@ export class BotGoogleSearchHandler
    * @param ctx Request context
    */
   public async handle(query: string, ctx: ContextMessageUpdate): Promise<void> {
+    this.logger.info(query, ctx);
     if (!query) {
       debug('Empty query');
       await ctx.answerInlineQuery([], {

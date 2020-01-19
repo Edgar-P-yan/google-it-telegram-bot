@@ -27,6 +27,7 @@ export class BotInlineQueryHandler
       const { query, queryType } = this.formatQuery(ctx);
 
       debug('Inline query %O', ctx.inlineQuery);
+      this.logger.info('Inline query', ctx.inlineQuery);
 
       switch (queryType) {
         case QueryType.SEARCH:

@@ -17,10 +17,11 @@ import { BotImageSearchHandler } from './services/bot-image-search-handler';
 import { BotVideosSearchHandler } from './services/bot-videos-search-handler';
 import { BotInlineQueryHandler } from './services/bot-inline-query-handler';
 import { Logger } from 'winston';
-import { createLogger } from './services/logger';
+import { loggerDynamicValueFactory } from './services/logger';
 
 const container = new Container();
-container.bind<Logger>(TYPES.Logger).toConstantValue(createLogger());
+
+container.bind<Logger>(TYPES.Logger).toDynamicValue(loggerDynamicValueFactory);
 container.bind<NSConfig.IService>(TYPES.Config).to(ConfigService);
 
 container.bind<NSGoogleCSE.IService>(TYPES.GoogleCSE).to(GoogleCSEService);
