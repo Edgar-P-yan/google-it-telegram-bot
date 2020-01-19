@@ -6,8 +6,7 @@ import { sendNothingFound } from '../bot-inline-query-handler/common';
 import { NSGoogleCSE, NSBotInlineQueryHandlers } from '../../interfaces';
 import { TYPES } from '../../types';
 import _ from 'lodash';
-import _debug from 'debug';
-const debug = _debug('app:bot:inline-search:google');
+import winston from 'winston';
 
 @injectable()
 export class BotImageSearchHandler
@@ -18,6 +17,8 @@ export class BotImageSearchHandler
   constructor(
     @inject(TYPES.GoogleCSE)
     private readonly googleCse: NSGoogleCSE.IService,
+    @inject(TYPES.Logger)
+    private readonly logger: winston.Logger,
   ) {}
 
   /**
@@ -29,7 +30,7 @@ export class BotImageSearchHandler
    */
   public async handle(query: string, ctx: ContextMessageUpdate): Promise<void> {
     if (!query) {
-      debug('Empty query');
+      this.logger.info('Empty query');
       await ctx.answerInlineQuery([], {
         cache_time: this.CACHE_TIME,
       });

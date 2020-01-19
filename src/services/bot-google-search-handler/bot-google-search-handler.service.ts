@@ -7,9 +7,7 @@ import { sendNothingFound } from '../bot-inline-query-handler/common';
 import { NSGoogleCSE, NSBotInlineQueryHandlers } from '../../interfaces';
 import { TYPES } from '../../types';
 import _ from 'lodash';
-import _debug from 'debug';
 import winston from 'winston';
-const debug = _debug('app:bot:inline-search:google');
 
 @injectable()
 export class BotGoogleSearchHandler
@@ -33,7 +31,7 @@ export class BotGoogleSearchHandler
   public async handle(query: string, ctx: ContextMessageUpdate): Promise<void> {
     this.logger.info(query, ctx);
     if (!query) {
-      debug('Empty query');
+      this.logger.info('Empty query', ctx);
       await ctx.answerInlineQuery([], {
         cache_time: this.CACHE_TIME,
       });
@@ -52,12 +50,12 @@ export class BotGoogleSearchHandler
       // Sending "Nothing Found" message only when
       // offset === 0, in other words, when requested
       // the first page of results. (see 'offset' parameter in telegrams' docs )
-      debug('Nothing found for %s', query);
+      this.logger.info('Nothing found', ctx);
       await sendNothingFound(ctx, this.CACHE_TIME);
       return;
     }
 
-    debug('Sending answer for %s', query);
+    this.logger.info('Sending answer', ctx);
     await ctx.answerInlineQuery(inlineResults, {
       // if search didn't give a result, then there is no more results,
       // so setting next_offset to empty value will prevent
@@ -85,7 +83,7 @@ export class BotGoogleSearchHandler
     lang: string,
     start: number,
   ): Promise<InlineQueryResult[]> {
-    debug('Requesting CSE %s', query);
+    this.logger.info('Requesting CSE', query);
     const items = await this.googleCse.search({
       q: query,
       hl: lang,
@@ -93,7 +91,7 @@ export class BotGoogleSearchHandler
       num: this.RESULTS_PER_PAGE,
     });
 
-    debug('Result received from CSE for %s', query);
+    this.logger.info('Result received from CSE', query);
 
     return this.formatSearchItems(items);
   }

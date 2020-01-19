@@ -2,8 +2,6 @@ import { container } from './inversify.config';
 import { TYPES } from './types';
 import { IBot, NSConfig } from './interfaces';
 import winston from 'winston';
-import _debug from 'debug';
-const debug = _debug('app:bot:inline-search');
 
 const botService = container.get<IBot>(TYPES.Bot);
 const config = container.get<NSConfig.IService>(TYPES.Config);
@@ -16,12 +14,11 @@ async function bootstrap() {
   }
 
   await botService.bot.launch();
-  debug('launched');
+  logger.info('Launched');
 }
 
 bootstrap().catch(error => {
-  debug('BootstrapError: %O', error);
-  logger.error(`BootstrapError`, error);
+  logger.error(`BootstrapError`, { error });
   // tslint:disable-next-line no-console
   console.error(error);
   process.exit(1);

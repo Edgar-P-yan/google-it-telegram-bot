@@ -6,8 +6,7 @@ import { InlineQueryResult } from 'telegraf/typings/telegram-types';
 import { sendNothingFound } from '../bot-inline-query-handler/common';
 import { encode } from '../../utils/he-encode';
 import { youtube_v3 } from 'googleapis';
-import _debug from 'debug';
-const debug = _debug('app:bot:inline-search:videos');
+import winston = require('winston');
 
 @injectable()
 export class BotVideosSearchHandler
@@ -17,6 +16,8 @@ export class BotVideosSearchHandler
   constructor(
     @inject(TYPES.YoutubeAPI)
     private readonly youtubeApi: NSYoutubeAPI.IService,
+    @inject(TYPES.Logger)
+    private readonly logger: winston.Logger,
   ) {}
 
   /**
@@ -29,7 +30,7 @@ export class BotVideosSearchHandler
    */
   public async handle(query: string, ctx: ContextMessageUpdate): Promise<void> {
     if (!query) {
-      debug('Empty query');
+      this.logger.info('Empty query');
       ctx.answerInlineQuery([], { cache_time: this.CACHE_TIME });
       return;
     }
@@ -43,12 +44,12 @@ export class BotVideosSearchHandler
     );
 
     if (results.length === 0) {
-      debug('Nothing found for %s', query);
+      this.logger.info('Nothing found', query);
       await sendNothingFound(ctx, this.CACHE_TIME);
       return;
     }
 
-    debug('Sending answer for %s', query);
+    this.logger.info('Sending answer', query);
     await ctx.answerInlineQuery(results, {
       next_offset: nextPageToken || undefined,
       cache_time: this.CACHE_TIME,
@@ -74,14 +75,14 @@ export class BotVideosSearchHandler
     nextPageToken: string;
     results: InlineQueryResult[];
   }> {
-    debug('Requesting YouTube %s', query);
+    this.logger.info('Requesting YouTube', query);
     const res = await this.youtubeApi.search({
       q: query,
       relevanceLanguage: lang,
       pageToken,
     });
 
-    debug('Result received from YouTube for %s', query);
+    this.logger.info('Result received from YouTube', query);
 
     return {
       nextPageToken: res.nextPageToken,

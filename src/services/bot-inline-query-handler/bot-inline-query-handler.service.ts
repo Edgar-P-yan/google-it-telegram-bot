@@ -5,8 +5,6 @@ import { ContextMessageUpdate } from 'telegraf';
 import { QueryType } from './constants';
 import { sendErrorResult } from './common';
 import winston from 'winston';
-import _debug from 'debug';
-const debug = _debug('app:bot:inline-search');
 
 @injectable()
 export class BotInlineQueryHandler
@@ -26,7 +24,6 @@ export class BotInlineQueryHandler
     try {
       const { query, queryType } = this.formatQuery(ctx);
 
-      debug('Inline query %O', ctx.inlineQuery);
       this.logger.info('Inline query', ctx.inlineQuery);
 
       switch (queryType) {
@@ -43,10 +40,9 @@ export class BotInlineQueryHandler
           break;
       }
 
-      debug('Query processed %O', ctx.inlineQuery);
-    } catch (err) {
-      debug('ERROR CATCHED: %s', err);
-      this.logger.error({ error: err });
+      this.logger.info('Query processed', ctx.inlineQuery);
+    } catch (error) {
+      this.logger.error({ error });
       return await sendErrorResult(ctx);
     }
   }

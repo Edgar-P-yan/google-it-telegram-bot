@@ -7,13 +7,11 @@ import winston from 'winston';
 import { NSConfig, IBot, NSBotInlineQueryHandlers } from '../../interfaces';
 import { TYPES } from '../../types';
 import { noDirectRequestsInGroups } from './middlewares';
-import _debug from 'debug';
-const debug = _debug('app:bot');
-const markup = Extra.markdown();
 
 @injectable()
 export class BotService implements IBot {
   public bot: Telegraf<ContextMessageUpdate>;
+  private markup: any;
 
   constructor(
     @inject(TYPES.Config)
@@ -24,14 +22,14 @@ export class BotService implements IBot {
     private readonly inlineQueryHandler: NSBotInlineQueryHandlers.IInlineQueryHandler,
   ) {
     this.bot = this.initBot();
+    this.markup = Extra.markdown();
   }
 
   private initBot(): Telegraf<ContextMessageUpdate> {
     const bot = this.createTelegramBot();
 
-    bot.catch((err: any) => {
-      debug(err);
-      this.logger.error({ error: err });
+    bot.catch((error: any) => {
+      this.logger.error({ error });
     });
 
     bot.use(noDirectRequestsInGroups);
@@ -61,20 +59,20 @@ export class BotService implements IBot {
 
   private helpCommandHandler() {
     return async (ctx: AdditionalKeys<ContextMessageUpdate>): Promise<void> => {
-      debug('/help user: %s', ctx.from.username);
+      this.logger.info('Command /help', ctx.from);
       await ctx.reply(
         'Type `@' +
           ctx.botInfo.username +
           ' funny cats` and you will see search result.\n' +
           'Then click on them to send to me!',
-        markup,
+        this.markup,
       );
     };
   }
 
   private startCommandHandler() {
     return async (ctx: AdditionalKeys<ContextMessageUpdate>): Promise<void> => {
-      debug('/start user: %s', ctx.from.username);
+      this.logger.info('Command /start', ctx.from);
       await ctx.reply(
         `Hi ${ctx.from.first_name} ${ctx.from.last_name || ''}! 🎉\n` +
           'I am an inline bot for searching *WEB*, *IMAGES*, *VIDEOS*.\n' +
@@ -85,7 +83,7 @@ export class BotService implements IBot {
           '🎞️ *Wanna search videos?* Just type `videos` next to it. `@Google_itBot cats videos`.\n' +
           `📤 *Wanna share the result?* Just tap on the result.\n\n` +
           '*LET\'S DO THIS*. Type `@Google_itBot funny cats images` and share with me some images of them!',
-        markup,
+        this.markup,
       );
     };
   }
