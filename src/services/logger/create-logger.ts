@@ -3,20 +3,20 @@ import { addMetadataFromCls } from './lib/add-metadata-from-cls';
 import { botClsNs } from '../../lib/bot-cls-ns';
 
 export function createLogger(context?: string): winston.Logger {
-  const transports =
-    process.env.NODE_ENV === 'production'
-      ? [new winston.transports.Console()]
-      : [
-          new winston.transports.Console({
-            format: winston.format.combine(
-              winston.format.label({ label: context, message: true }),
-              winston.format.cli(),
-            ),
-          }),
-          new winston.transports.File({
-            filename: 'logs/combined.log',
-          }),
-        ];
+  const transports = [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.label({ label: context, message: true }),
+        winston.format.cli(),
+      ),
+    }),
+    new winston.transports.File({
+      maxsize: 10 * (2 ** 20), // 10 Megabytes
+      maxFiles: 100, // so log files will not be greater then 1 GB
+      zippedArchive: true,
+      filename: 'logs/combined.log',
+    }),
+  ];
 
   const logger = winston.createLogger({
     defaultMeta: {
