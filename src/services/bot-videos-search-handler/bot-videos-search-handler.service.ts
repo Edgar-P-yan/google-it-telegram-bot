@@ -44,12 +44,12 @@ export class BotVideosSearchHandler
     );
 
     if (results.length === 0) {
-      this.logger.info('Nothing found', query);
+      this.logger.info('Nothing found');
       await sendNothingFound(ctx, this.CACHE_TIME);
       return;
     }
 
-    this.logger.info('Sending answer', query);
+    this.logger.info('Sending answer');
     await ctx.answerInlineQuery(results, {
       next_offset: nextPageToken || undefined,
       cache_time: this.CACHE_TIME,
@@ -75,14 +75,14 @@ export class BotVideosSearchHandler
     nextPageToken: string;
     results: InlineQueryResult[];
   }> {
-    this.logger.info('Requesting YouTube', query);
+    this.logger.info('Requesting YouTube');
     const res = await this.youtubeApi.search({
       q: query,
       relevanceLanguage: lang,
       pageToken,
     });
 
-    this.logger.info('Result received from YouTube', query);
+    this.logger.info('Result received from YouTube');
 
     return {
       nextPageToken: res.nextPageToken,

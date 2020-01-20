@@ -7,6 +7,7 @@ import winston from 'winston';
 import { NSConfig, IBot, NSBotInlineQueryHandlers } from '../../interfaces';
 import { TYPES } from '../../types';
 import { noDirectRequestsInGroups } from './middlewares';
+import { botClsNs } from '../../lib/bot-cls-ns';
 
 @injectable()
 export class BotService implements IBot {
@@ -30,6 +31,13 @@ export class BotService implements IBot {
 
     bot.catch((error: any) => {
       this.logger.error({ error });
+    });
+
+    bot.use((ctx, next) => {
+      return botClsNs.runAndReturn(() => {
+        botClsNs.set('bot_context', ctx);
+        return next();
+      });
     });
 
     bot.use(noDirectRequestsInGroups);
@@ -59,7 +67,7 @@ export class BotService implements IBot {
 
   private helpCommandHandler() {
     return async (ctx: AdditionalKeys<ContextMessageUpdate>): Promise<void> => {
-      this.logger.info('Command /help', ctx.from);
+      this.logger.info('Command /help');
       await ctx.reply(
         'Type `@' +
           ctx.botInfo.username +
@@ -72,7 +80,7 @@ export class BotService implements IBot {
 
   private startCommandHandler() {
     return async (ctx: AdditionalKeys<ContextMessageUpdate>): Promise<void> => {
-      this.logger.info('Command /start', ctx.from);
+      this.logger.info('Command /start');
       await ctx.reply(
         `Hi ${ctx.from.first_name} ${ctx.from.last_name || ''}! 🎉\n` +
           'I am an inline bot for searching *WEB*, *IMAGES*, *VIDEOS*.\n' +

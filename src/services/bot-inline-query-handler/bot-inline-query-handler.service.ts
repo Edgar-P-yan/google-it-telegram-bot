@@ -24,7 +24,7 @@ export class BotInlineQueryHandler
     try {
       const { query, queryType } = this.formatQuery(ctx);
 
-      this.logger.info('Inline query', ctx.inlineQuery);
+      this.logger.info('Inline query');
 
       switch (queryType) {
         case QueryType.SEARCH:
@@ -40,7 +40,7 @@ export class BotInlineQueryHandler
           break;
       }
 
-      this.logger.info('Query processed', ctx.inlineQuery);
+      this.logger.info('Query processed');
     } catch (error) {
       this.logger.error({ error });
       return await sendErrorResult(ctx);

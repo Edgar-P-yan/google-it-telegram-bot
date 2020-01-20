@@ -1,4 +1,6 @@
 import winston from 'winston';
+import { addMetadataFromCls } from './lib/add-metadata-from-cls';
+import { botClsNs } from '../../lib/bot-cls-ns';
 
 export function createLogger(context?: string): winston.Logger {
   const transports =
@@ -21,6 +23,11 @@ export function createLogger(context?: string): winston.Logger {
       context,
     },
     format: winston.format.combine(
+      addMetadataFromCls({
+        clsNs: botClsNs,
+        clsProp: 'bot_context',
+        metadataProp: 'bot_context',
+      }),
       winston.format.timestamp(),
 
       // this serializes errors, usage logger.error({error: error})

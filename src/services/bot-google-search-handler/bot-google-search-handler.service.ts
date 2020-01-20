@@ -29,9 +29,9 @@ export class BotGoogleSearchHandler
    * @param ctx Request context
    */
   public async handle(query: string, ctx: ContextMessageUpdate): Promise<void> {
-    this.logger.info(query, ctx);
+    this.logger.info(query);
     if (!query) {
-      this.logger.info('Empty query', ctx);
+      this.logger.info('Empty query');
       await ctx.answerInlineQuery([], {
         cache_time: this.CACHE_TIME,
       });
@@ -50,12 +50,12 @@ export class BotGoogleSearchHandler
       // Sending "Nothing Found" message only when
       // offset === 0, in other words, when requested
       // the first page of results. (see 'offset' parameter in telegrams' docs )
-      this.logger.info('Nothing found', ctx);
+      this.logger.info('Nothing found');
       await sendNothingFound(ctx, this.CACHE_TIME);
       return;
     }
 
-    this.logger.info('Sending answer', ctx);
+    this.logger.info('Sending answer');
     await ctx.answerInlineQuery(inlineResults, {
       // if search didn't give a result, then there is no more results,
       // so setting next_offset to empty value will prevent
@@ -83,7 +83,7 @@ export class BotGoogleSearchHandler
     lang: string,
     start: number,
   ): Promise<InlineQueryResult[]> {
-    this.logger.info('Requesting CSE', query);
+    this.logger.info('Requesting CSE');
     const items = await this.googleCse.search({
       q: query,
       hl: lang,
@@ -91,7 +91,7 @@ export class BotGoogleSearchHandler
       num: this.RESULTS_PER_PAGE,
     });
 
-    this.logger.info('Result received from CSE', query);
+    this.logger.info('Result received from CSE');
 
     return this.formatSearchItems(items);
   }
