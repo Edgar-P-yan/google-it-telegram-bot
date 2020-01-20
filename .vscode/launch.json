@@ -15,7 +15,8 @@
       ],
       "runtimeVersion": "12.14.0",
       "env": {
-        "DEBUG": "app:*",
+        "NODE_ENV": "production",
+        "DEBUG": "telegraf:*",
         "DEBUG_COLORS": "true"
       },
       "console": "integratedTerminal"
