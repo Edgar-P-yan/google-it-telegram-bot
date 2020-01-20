@@ -19,7 +19,8 @@
     "import-spacing": true,
     "whitespace": true,
     "indent": [true, "spaces", 2],
-    "space-within-parens": true
+    "space-within-parens": true,
+    "no-default-export": true
   },
   "rulesDirectory": []
 }
