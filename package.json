@@ -1,15 +1,15 @@
 {
   "name": "google-it-telegram-bot",
   "homepage": "https://github.com/Edgar-P-yan/google-it-telegram-bot#readme",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "bugs": "https://github.com/Edgar-P-yan/google-it-telegram-bot/issues",
   "scripts": {
     "build": "rimraf dist && tsc",
     "start": "node dist/index.js",
-    "lint": "eslint .",
-    "style": "prettier --check **/**.ts",
-    "style:fix": "prettier --write **/**.ts"
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "style": "prettier --check \"src/**/*.ts\"",
+    "style:fix": "prettier --write \"src/**/*.ts\""
   },
   "repository": {
     "type": "git",
@@ -22,27 +22,28 @@
   },
   "dependencies": {
     "@hapi/joi": "^16.1.7",
-    "debug": "^4.1.1",
+    "cls-hooked": "^4.2.2",
     "dotenv": "^8.0.0",
     "forever": "^1.0.0",
     "googleapis": "^40.0.0",
     "he": "^1.2.0",
+    "inversify": "^5.0.1",
     "lodash": "^4.17.13",
+    "reflect-metadata": "^0.1.13",
     "socks-proxy-agent": "^4.0.2",
     "telegraf": "^3.29.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.5",
+    "@types/cls-hooked": "^4.3.0",
     "@types/dotenv": "^6.1.1",
     "@types/hapi__joi": "^16.0.1",
     "@types/he": "^1.1.0",
     "@types/lodash": "^4.14.138",
     "@types/node": "^12.7.5",
-    "eslint": "^5.16.0",
     "prettier": "^1.18.2",
     "rimraf": "^3.0.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.7.5"
   }
 }

@@ -1,4 +1,4 @@
-import {ContextMessageUpdate} from 'telegraf'
+import { ContextMessageUpdate } from 'telegraf';
 
 /**
  * Used to notify, when inline search operation
@@ -7,7 +7,10 @@ import {ContextMessageUpdate} from 'telegraf'
  * @param {ContextMessageUpdate} ctx Request context
  * @param {Number} cacheTime Seconds that telegram will cache this "Nothing found" response for this query for.
  */
-export async function sendNothingFound(ctx: ContextMessageUpdate, cacheTime: number): Promise<void> {
+export async function sendNothingFound(
+  ctx: ContextMessageUpdate,
+  cacheTime: number,
+): Promise<void> {
   await ctx.answerInlineQuery(
     [
       {
@@ -23,15 +26,17 @@ export async function sendNothingFound(ctx: ContextMessageUpdate, cacheTime: num
       cache_time: cacheTime,
     },
   );
-  return
-};
+  return;
+}
 
 /**
  * Used to notify, when error ocurred
  * @public
  * @param {ContextMessageUpdate} ctx Request context
  */
-export async function sendErrorResult(ctx: ContextMessageUpdate): Promise<void> {
+export async function sendErrorResult(
+  ctx: ContextMessageUpdate,
+): Promise<void> {
   await ctx.answerInlineQuery([
     {
       type: 'article',
@@ -43,4 +48,4 @@ export async function sendErrorResult(ctx: ContextMessageUpdate): Promise<void> 
     },
   ]);
   return;
-};
+}

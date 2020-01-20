@@ -13,6 +13,7 @@
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ],
+      "runtimeVersion": "12.14.0",
       "env": {
         "DEBUG": "app:*",
         "DEBUG_COLORS": "true"
