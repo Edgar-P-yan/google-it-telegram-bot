@@ -7,6 +7,7 @@ import {
   IBot,
   NSGoogleCSE,
   NSBotInlineQueryHandlers,
+  IBotHelpers,
 } from './interfaces';
 import { ConfigService } from './services/config/config.service';
 import { BotService } from './services/bot/bot.service';
@@ -18,14 +19,21 @@ import { BotVideosSearchHandler } from './services/bot-videos-search-handler';
 import { BotInlineQueryHandler } from './services/bot-inline-query-handler';
 import { Logger } from 'winston';
 import { loggerDynamicValueFactory } from './services/logger';
+import { BotHelpers } from './services/bot-helpers';
+import dotenv from 'dotenv';
 
 const container = new Container();
 
 container.bind<Logger>(TYPES.Logger).toDynamicValue(loggerDynamicValueFactory);
-container.bind<NSConfig.IService>(TYPES.Config).to(ConfigService);
+
+dotenv.config();
+container
+  .bind<NSConfig.IService>(TYPES.Config)
+  .toConstantValue(new ConfigService(process.env));
 
 container.bind<NSGoogleCSE.IService>(TYPES.GoogleCSE).to(GoogleCSEService);
 container.bind<NSYoutubeAPI.IService>(TYPES.YoutubeAPI).to(YoutubeAPI);
+container.bind<IBotHelpers>(TYPES.BotHelpers).to(BotHelpers);
 
 container
   .bind<NSBotInlineQueryHandlers.ISpecificSearchTypeHandler>(

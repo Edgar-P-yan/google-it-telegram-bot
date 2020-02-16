@@ -1,12 +1,15 @@
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../../types';
-import { NSYoutubeAPI, NSBotInlineQueryHandlers } from '../../interfaces';
+import {
+  NSYoutubeAPI,
+  NSBotInlineQueryHandlers,
+  IBotHelpers,
+} from '../../interfaces';
 import { ContextMessageUpdate } from 'telegraf';
 import { InlineQueryResult } from 'telegraf/typings/telegram-types';
-import { sendNothingFound } from '../bot-inline-query-handler/common';
 import { encode } from '../../utils/he-encode';
 import { youtube_v3 } from 'googleapis';
-import winston = require('winston');
+import winston from 'winston';
 
 @injectable()
 export class BotVideosSearchHandler
@@ -18,6 +21,8 @@ export class BotVideosSearchHandler
     private readonly youtubeApi: NSYoutubeAPI.IService,
     @inject(TYPES.Logger)
     private readonly logger: winston.Logger,
+    @inject(TYPES.BotHelpers)
+    private readonly botHelpers: IBotHelpers,
   ) {}
 
   /**
@@ -45,7 +50,7 @@ export class BotVideosSearchHandler
 
     if (results.length === 0) {
       this.logger.info('Nothing found');
-      await sendNothingFound(ctx, this.CACHE_TIME);
+      await this.botHelpers.sendNothingFound(ctx, this.CACHE_TIME);
       return;
     }
 

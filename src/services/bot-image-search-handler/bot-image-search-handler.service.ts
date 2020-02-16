@@ -2,8 +2,11 @@ import { inject, injectable } from 'inversify';
 import { ContextMessageUpdate } from 'telegraf';
 import { InlineQueryResult } from 'telegraf/typings/telegram-types';
 import { customsearch_v1 } from 'googleapis';
-import { sendNothingFound } from '../bot-inline-query-handler/common';
-import { NSGoogleCSE, NSBotInlineQueryHandlers } from '../../interfaces';
+import {
+  NSGoogleCSE,
+  NSBotInlineQueryHandlers,
+  IBotHelpers,
+} from '../../interfaces';
 import { TYPES } from '../../types';
 import _ from 'lodash';
 import winston from 'winston';
@@ -19,6 +22,8 @@ export class BotImageSearchHandler
     private readonly googleCse: NSGoogleCSE.IService,
     @inject(TYPES.Logger)
     private readonly logger: winston.Logger,
+    @inject(TYPES.BotHelpers)
+    private readonly botHelpers: IBotHelpers,
   ) {}
 
   /**
@@ -49,7 +54,7 @@ export class BotImageSearchHandler
       // Sending "Nothing Found" message only when
       // offset === 0, in other words, when requested
       // the first page of results. (see 'offset' parameter in telegrams' docs )
-      await sendNothingFound(ctx, this.CACHE_TIME);
+      await this.botHelpers.sendNothingFound(ctx, this.CACHE_TIME);
       return;
     }
 

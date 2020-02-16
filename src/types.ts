@@ -8,4 +8,5 @@ export const TYPES = {
   Logger: Symbol.for('Logger'),
   GoogleCSE: Symbol.for('GoogleCSE'),
   YoutubeAPI: Symbol.for('YoutubeAPI'),
+  BotHelpers: Symbol.for('BotHelpers'),
 };

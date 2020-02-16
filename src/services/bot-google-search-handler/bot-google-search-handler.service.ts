@@ -3,8 +3,11 @@ import { ContextMessageUpdate } from 'telegraf';
 import { InlineQueryResult } from 'telegraf/typings/telegram-types';
 import { customsearch_v1 } from 'googleapis';
 import { encode } from '../../utils/he-encode';
-import { sendNothingFound } from '../bot-inline-query-handler/common';
-import { NSGoogleCSE, NSBotInlineQueryHandlers } from '../../interfaces';
+import {
+  NSGoogleCSE,
+  NSBotInlineQueryHandlers,
+  IBotHelpers,
+} from '../../interfaces';
 import { TYPES } from '../../types';
 import _ from 'lodash';
 import winston from 'winston';
@@ -20,6 +23,8 @@ export class BotGoogleSearchHandler
     private readonly googleCse: NSGoogleCSE.IService,
     @inject(TYPES.Logger)
     private readonly logger: winston.Logger,
+    @inject(TYPES.BotHelpers)
+    private readonly botHelpers: IBotHelpers,
   ) {}
 
   /**
@@ -51,7 +56,7 @@ export class BotGoogleSearchHandler
       // offset === 0, in other words, when requested
       // the first page of results. (see 'offset' parameter in telegrams' docs )
       this.logger.info('Nothing found');
-      await sendNothingFound(ctx, this.CACHE_TIME);
+      await this.botHelpers.sendNothingFound(ctx, this.CACHE_TIME);
       return;
     }
 

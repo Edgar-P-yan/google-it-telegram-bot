@@ -1,9 +1,8 @@
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../../types';
-import { NSBotInlineQueryHandlers } from '../../interfaces';
+import { NSBotInlineQueryHandlers, IBotHelpers } from '../../interfaces';
 import { ContextMessageUpdate } from 'telegraf';
 import { QueryType } from './constants';
-import { sendErrorResult } from './common';
 import winston from 'winston';
 
 @injectable()
@@ -18,6 +17,8 @@ export class BotInlineQueryHandler
     private readonly imageSearchHandler: NSBotInlineQueryHandlers.ISpecificSearchTypeHandler,
     @inject(TYPES.BotVideosSearchHandler)
     private readonly videosSearchHandler: NSBotInlineQueryHandlers.ISpecificSearchTypeHandler,
+    @inject(TYPES.BotHelpers)
+    private readonly botHelpers: IBotHelpers,
   ) {}
 
   public async handler(ctx: ContextMessageUpdate): Promise<void> {
@@ -43,7 +44,7 @@ export class BotInlineQueryHandler
       this.logger.info('Query processed');
     } catch (error) {
       this.logger.error({ error });
-      return await sendErrorResult(ctx);
+      return await this.botHelpers.sendErrorResult(ctx);
     }
   }
 
