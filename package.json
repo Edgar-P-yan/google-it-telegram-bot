@@ -37,6 +37,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@fluffy-spoon/substitute": "^1.110.0",
     "@types/chai": "^4.2.9",
     "@types/chai-subset": "^1.3.3",
     "@types/cls-hooked": "^4.3.0",

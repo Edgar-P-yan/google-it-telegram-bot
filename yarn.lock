@@ -119,6 +119,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@fluffy-spoon/substitute@^1.110.0":
+  version "1.110.0"
+  resolved "https://registry.yarnpkg.com/@fluffy-spoon/substitute/-/substitute-1.110.0.tgz#b55ef4813a1d6b1fcb60c557ab62c7a1c455fc62"
+  integrity sha512-N6KIXiKPeah/ve2htA4UrLbmz75WWwDKHGUqVx+KFEgPFw2PSFNR08BXZdDAboyRifbs5f+82jvNE1yYAz8jWQ==
+
 "@hapi/address@^2.1.2":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
