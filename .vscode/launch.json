@@ -15,11 +15,29 @@
       ],
       "runtimeVersion": "12.14.0",
       "env": {
-        "NODE_ENV": "production",
         "DEBUG": "telegraf:*",
         "DEBUG_COLORS": "true"
       },
       "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Mocha Tests",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--timeout",
+        "99999999",
+        "--colors",
+        "-r",
+        "ts-node/register",
+        "--extension",
+        "ts,js"
+      ],
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
     }
   ]
 }
