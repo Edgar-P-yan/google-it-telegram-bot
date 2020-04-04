@@ -9,12 +9,16 @@ const logger = container.get<winston.Logger>(TYPES.Logger);
 
 async function bootstrap() {
   if (config.get('WEB_HOOKS')) {
-    botService.bot.telegram.setWebhook(config.get('WEB_HOOKS_SECRET_URL'));
-    botService.bot.startWebhook('/secret-path', null, config.get('PORT') || 80);
-  }
+    await botService.bot.telegram.setWebhook(config.get('WEB_HOOKS_SECRET_URL'));
 
-  await botService.bot.launch();
-  logger.info('Launched');
+    botService.bot.startWebhook(config.get('WEB_HOOKS_PATH'), null, config.get('PORT'));
+
+    logger.info('Bot launched. mode: Webhook');
+  } else {
+    await botService.bot.launch();
+
+    logger.info('Bot launched. mode: long-polling');
+  }
 }
 
 bootstrap().catch(error => {

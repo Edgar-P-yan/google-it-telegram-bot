@@ -28,6 +28,12 @@ export namespace NSConfig {
      */
     WEB_HOOKS: boolean;
 
+    /**
+     * Use only if you are using WebHooks.
+     * The port on which webhook server will listen
+     * Note: telegram sends webhooks only to these ports: 443, 80, 88, 8443
+     * @see https://core.telegram.org/bots/api#setwebhook
+     */
     PORT?: number | undefined;
 
     /**
