@@ -56,12 +56,5 @@ export namespace NSConfig {
      * '/secret-path'
      */
     WEB_HOOKS_PATH?: string;
-
-    /**
-     * Socks proxy url to use.
-     * Leave it empty if you are not using socks proxy.
-     * Helpfull in regions, where telegram is blocked.
-     */
-    SOCKS_PROXY?: string | undefined;
   }
 }

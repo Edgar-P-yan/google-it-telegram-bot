@@ -47,13 +47,6 @@ export class ConfigService implements NSConfig.IService {
         then: Joi.string().required(),
         otherwise: Joi.any().strip(),
       }),
-
-      SOCKS_PROXY: Joi.when(Joi.equal(''), {
-        then: Joi.any().strip(),
-        otherwise: Joi.string()
-          .uri()
-          .optional(),
-      }),
     })
       .options({
         stripUnknown: true,

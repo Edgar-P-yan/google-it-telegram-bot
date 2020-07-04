@@ -1,4 +1,4 @@
-FROM node:12 AS installer
+FROM node:12-slim AS installer
 WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./

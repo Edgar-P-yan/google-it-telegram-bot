@@ -3,15 +3,5 @@ services:
   bot:
     build: .
     env_file: ./.env
-    environment: 
-      SOCKS_PROXY: socks://torproxy:9050
     volumes:
       - /data/google-it-telegram-bot/logs:/usr/src/app/logs
-    depends_on:
-      - torproxy
-
-  # Used by Telegram Bot
-  torproxy:
-    image: dperson/torproxy
-    expose:
-      - "9050"

@@ -1,7 +1,6 @@
 import { injectable, inject } from 'inversify';
 import Telegraf, { ContextMessageUpdate } from 'telegraf';
 import Extra from 'telegraf/extra';
-import SocksProxyAgent from 'socks-proxy-agent';
 import _ from 'lodash';
 import winston from 'winston';
 import { NSConfig, IBot, NSBotInlineQueryHandlers } from '../../interfaces';
@@ -53,14 +52,7 @@ export class BotService implements IBot {
   }
 
   private createTelegramBot(): Telegraf<ContextMessageUpdate> {
-    const bot = new Telegraf(this.config.get('BOT_TOKEN'), {
-      telegram: {
-        agent:
-          (this.config.get('SOCKS_PROXY') &&
-            new SocksProxyAgent(this.config.get('SOCKS_PROXY'))) ||
-          null,
-      },
-    });
+    const bot = new Telegraf(this.config.get('BOT_TOKEN'));
 
     return bot;
   }
