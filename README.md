@@ -1,4 +1,4 @@
-![alt text](./docs/assets/hero-logo.png "@Google_itBot's logo ")
+![@Google_itBot's logo](https://raw.githubusercontent.com/Edgar-P-yan/google-it-telegram-bot/master/docs/assets/hero-logo.png "@Google_itBot's logo")
 
 # @Google_itBot Telegram Inline BOT
 
