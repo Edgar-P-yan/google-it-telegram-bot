@@ -11,7 +11,12 @@ async function bootstrap() {
   if (config.get('WEB_HOOKS')) {
     await botService.bot.telegram.setWebhook(config.get('WEB_HOOKS_SECRET_URL'));
 
-    botService.bot.startWebhook(config.get('WEB_HOOKS_PATH'), null, config.get('PORT'));
+    await botService.bot.launch({
+      webhook: {
+        hookPath: config.get('WEB_HOOKS_PATH'),
+        port: config.get('PORT'),
+      }
+    })
 
     logger.info('Bot launched. mode: Webhook');
   } else {
