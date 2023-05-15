@@ -1,6 +1,6 @@
 import winston from 'winston';
 import { ClsNS } from '../cls-ns/cls-ns-factory';
-import { addMetadataFromCls } from './add-metadata-from-cls';
+import { addBotContextFromCls } from './add-metadata-from-cls';
 
 export class LoggerFactory {
   constructor(
@@ -30,10 +30,8 @@ export class LoggerFactory {
         context,
       },
       format: winston.format.combine(
-        addMetadataFromCls({
+        addBotContextFromCls({
           clsNs: this.clsNs.get(),
-          clsProp: 'bot_context',
-          metadataProp: 'bot_context',
         }),
         winston.format.timestamp(),
 
