@@ -39,7 +39,7 @@ RELEASE_BRANCH_PREFIX = "release/"
 FEATURE_BRANCH_PREFIX = "feature/"
 HOTFIX_BRANCH_PREFIX = "hotfix/"
 DEVELOP_BRANCH_NAME = "develop"
-MAIN_BRANCH_NAME = "main"
+MAIN_BRANCH_NAME = "master"
 
 
 def main() -> None:
