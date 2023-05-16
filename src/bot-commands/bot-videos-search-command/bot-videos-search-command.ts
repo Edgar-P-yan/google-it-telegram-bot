@@ -93,6 +93,9 @@ export class BotVideosSearchCommand {
    * id, even when the user scrolls the results, and we get another request
    * with a new "offset" value. That's why we pass pageToken to formatYouTubeSearchItems
    * and use it as a uniqueness guarantee, and we concatenate it to each result item's index.
+   * Otherwise when user will scroll down search results the client will get items with
+   * duplicate ids, and IOS client will not display new results. Although Desktop
+   * client works fine even with duplicate ids.
    */
   private formatYouTubeSearchItems(
     items: youtube_v3.Schema$SearchResult[],
