@@ -85,7 +85,7 @@ export class BotImageSearchCommand {
       num: this.RESULTS_PER_PAGE,
     });
 
-    return this.formatImageSearchItems(items);
+    return this.formatImageSearchItems(items, start);
   }
 
   /**
@@ -94,11 +94,12 @@ export class BotImageSearchCommand {
    */
   private formatImageSearchItems(
     items: customsearch_v1.Schema$Result[],
+    start: number,
   ): InlineQueryResult[] {
     return items.map((item, i) => {
       return {
         type: 'photo',
-        id: _.toString(i),
+        id: _.toString(start + i),
         photo_url: item.link,
         photo_width: item.image.width,
         photo_height: item.image.height,
