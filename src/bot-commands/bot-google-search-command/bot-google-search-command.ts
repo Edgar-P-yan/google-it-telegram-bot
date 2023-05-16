@@ -50,7 +50,7 @@ export class BotGoogleSearchCommand {
       return;
     }
 
-    this.logger.info('Sending answer');
+    this.logger.info(`Sending answer`);
     await ctx.answerInlineQuery(inlineResults, {
       // if search didn't give a result, then there is no more results,
       // so setting next_offset to empty value will prevent
@@ -88,7 +88,7 @@ export class BotGoogleSearchCommand {
 
     this.logger.info('Result received from CSE');
 
-    return this.formatSearchItems(items);
+    return this.formatSearchItems(items, start);
   }
 
   /**
@@ -97,12 +97,13 @@ export class BotGoogleSearchCommand {
    */
   private formatSearchItems(
     items: customsearch_v1.Schema$Result[],
+    start: number,
   ): InlineQueryResult[] {
     return items.map((item, i) => {
       const thumb = this.resolveThumb(item);
       return {
         type: 'article',
-        id: _.toString(i),
+        id: _.toString(start + i),
         title: item.title || '',
         url: item.link || '',
         description: item.snippet || '',

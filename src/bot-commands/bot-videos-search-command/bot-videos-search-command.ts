@@ -80,21 +80,28 @@ export class BotVideosSearchCommand {
 
     return {
       nextPageToken: res.nextPageToken,
-      results: this.formatYouTubeSearchItems(res.items),
+      results: this.formatYouTubeSearchItems(res.items, pageToken),
     };
   }
 
   /**
    * Formats search result returned from googleapis
    * to schema for answering to inline queries.
+   *
+   * @param items search results
+   * @param pageToken each result that inline bot gives should have unique
+   * id, even when the user scrolls the results, and we get another request
+   * with a new "offset" value. That's why we pass pageToken to formatYouTubeSearchItems
+   * and use it as a uniqueness guarantee, and we concatenate it to each result item's index.
    */
   private formatYouTubeSearchItems(
     items: youtube_v3.Schema$SearchResult[],
+    pageToken: string,
   ): InlineQueryResult[] {
     return items.map((item, i) => {
       return {
         type: 'video',
-        id: i.toString(),
+        id: pageToken + '#' + i.toString(),
         video_url: `https://www.youtube.com/embed/${item.id.videoId}`,
         mime_type: 'text/html',
         thumb_url: item.snippet.thumbnails.default.url,
