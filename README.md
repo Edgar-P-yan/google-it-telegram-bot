@@ -1,8 +1,20 @@
+# @Google_itBot Telegram Inline Bot
+
 ![@Google_itBot's logo](https://raw.githubusercontent.com/Edgar-P-yan/google-it-telegram-bot/master/docs/assets/hero-logo.png "@Google_itBot's logo")
 
-# @Google_itBot Telegram Inline BOT
+<center>
+  <a href="https://t.me/Google_itBot">
+    <img src="https://img.shields.io/static/v1?label=Telegram%20Bot&message=@Google_itBot&color=0088cc&style=for-the-badge&logo=telegram">
+  </a>
+  <a href="https://t.me/Google_itBot_feed">
+    <img src="https://img.shields.io/static/v1?label=Telegram%20Channel&message=@Google_itBot_feed&color=0088cc&style=for-the-badge&logo=telegram">
+  </a>
+</center>
+<br>
 
-## **This bot is working at [@Google_itBot](https://tele.click/Google_itBot)**
+This bot is working at [t.me/Google_itBot • Google It](https://t.me/Google_itBot).
+
+Also subscribe to out news channel [t.me/Google_itBot_feed • Google It Bot’s Feed](https://t.me/Google_itBot_feed). I'll post updates about the bot and other related projects.
 
 ## What can this bot do?
 
@@ -35,3 +47,7 @@ See `.example.env` for details about config variables.
 Yes, this bot have limitations on requests per day/hour, as it's using Googles' Custom Search Engine API and YouTube Data API. Each of those has its limitations on requests.
 
 **IF YOU NOTICE ANY BUG/UNEXPECTED BEHAVIOR PLEASE REPORT AN ISSUE!**
+
+## Related projects
+
+- [t.me/VideoMessagesBot](https://t.me/VideoMessagesBot) - 🪄 Convert ordinary videos to real round video messages ⚪️
