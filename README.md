@@ -10,7 +10,8 @@
     <img src="https://img.shields.io/static/v1?label=Telegram%20Channel&message=@Google_itBot_feed&color=0088cc&style=for-the-badge&logo=telegram">
   </a>
 </center>
-<br>
+<hr>
+
 
 This bot is working at [t.me/Google_itBot • Google It](https://t.me/Google_itBot).
 
